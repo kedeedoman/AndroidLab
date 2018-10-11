@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,23 +29,28 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    private UserListAdapter userListAdapter;
+    @Inject
+    UserListAdapter userListAdapter;
 
-    private FirebaseAPIService firebaseAPIService;
+    @Inject
+    FirebaseAPIService firebaseAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        injectDependencies();
+        setToolbar();
+        setFab();
+        setRecyclerView();
+    }
+
+    private void injectDependencies() {
         MainActivityComponent mainActivityComponent = DaggerMainActivityComponent.builder()
                 .mainActivityModule(new MainActivityModule())
                 .myApplicationComponent(MyApplication.get(this).getMyApplicationComponent())
                 .build();
-        userListAdapter = mainActivityComponent.getUserListAdapter();
-        firebaseAPIService = mainActivityComponent.getFirebaseAPIService();
-        setToolbar();
-        setFab();
-        setRecyclerView();
+        mainActivityComponent.injectMainActivity(this);
     }
 
     private void setFab() {

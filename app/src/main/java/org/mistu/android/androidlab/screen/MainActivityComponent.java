@@ -8,7 +8,6 @@ import dagger.Component;
 @Component(modules = MainActivityModule.class, dependencies = MyApplicationComponent.class)
 @MainActivityScope
 public interface MainActivityComponent {
-    UserListAdapter getUserListAdapter();
-    FirebaseAPIService getFirebaseAPIService();
+    MainActivity injectMainActivity(MainActivity mainActivity);
 }
 

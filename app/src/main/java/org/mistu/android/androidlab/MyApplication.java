@@ -14,21 +14,20 @@ public class MyApplication extends MultiDexApplication {
         return (MyApplication) activity.getApplication();
     }
 
-    private FirebaseAPIService firebaseAPIService;
+    private MyApplicationComponent myApplicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
-        MyApplicationComponent myApplicationComponent = DaggerMyApplicationComponent.builder()
+        myApplicationComponent = DaggerMyApplicationComponent.builder()
                 .contextModule(new ContextModule(this))
                 .build();
 
-        firebaseAPIService = myApplicationComponent.getFirebaseAPIService();
-
     }
 
-    public FirebaseAPIService getFirebaseAPIService() {
-        return firebaseAPIService;
+    public MyApplicationComponent getMyApplicationComponent() {
+        return myApplicationComponent;
     }
+
 }
